@@ -68,6 +68,15 @@ export class SignupComponent {
       },
     });
 
+    this.authService.login(username, password).subscribe({
+      next: (response) => {
+        this.authService.saveToken(response.token);
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+      },
+    });
 
   }
 

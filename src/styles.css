@@ -173,6 +173,14 @@ hr {
   color: #869999;
 }
 
+.button-danger {
+  background-color: #f84e2c;
+}
+
+.button-joy {
+  background-color: #147b73;
+}
+
 [formgroupname].ng-invalid.ng-touched.ng-dirty label,
 .control:has(.ng-invalid.ng-touched.ng-dirty) label {
   color: #f98b75;
@@ -220,4 +228,10 @@ input.ng-invalid.ng-touched.ng-dirty {
 
 .auth-link a:hover {
   text-decoration: underline;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
