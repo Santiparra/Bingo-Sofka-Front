@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../auth.service';
+
 function equalValues(controlName1: string, controlName2: string) {
   return (control: AbstractControl) => {
     const value1 = control.get(controlName1)?.value;
@@ -28,7 +30,7 @@ function equalValues(controlName1: string, controlName2: string) {
 })
 export class SignupComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   suForm = new FormGroup({
     username: new FormControl('', { validators: [Validators.required] }),
@@ -53,7 +55,20 @@ export class SignupComponent {
       console.log('INVALID FORM');
       return;
     }
-    console.log(this.suForm);
+    const username = this.suForm.get('username')?.value!;
+    const password = this.suForm.get('passwords.password')?.value!;
+
+    this.authService.register({ username, password }).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response.token);
+        this.router.navigate(['/auth/login']);
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+      },
+    });
+
+
   }
 
   onReset() {
