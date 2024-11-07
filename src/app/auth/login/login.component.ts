@@ -1,35 +1,21 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { debounceTime, of } from 'rxjs';
 
-function mustContainQuestionMark(control: AbstractControl) {
-  if (control.value.includes('?')) {
-    return null;
-  }
-  return { doesNotContainQuestionMark: true };
-}
+import { debounceTime } from 'rxjs';
 
-//i.e here you would send a be req to check uniqueness
-function emailIsUnique(control: AbstractControl) {
-  if (control.value !== 'admin@example.com') {
-    return of(null);
-  }
-  return of({ notUniqueEmail: true });
-}
+import { AuthService } from '../auth.service';
 
-//this only works client side 
-let initialEmailValue = ''
+let initialEmailValue = '';
 const savedForm = window.localStorage.getItem('saved-login-form');
 if (savedForm) {
   const loadedForm = JSON.parse(savedForm);
-  initialEmailValue = loadedForm.email
+  initialEmailValue = loadedForm.email;
 }
 
 @Component({
@@ -40,21 +26,20 @@ if (savedForm) {
   imports: [ReactiveFormsModule],
 })
 export class LoginComponent implements OnInit {
-  constructor(private destroyRef: DestroyRef, private router: Router) {}
+  constructor(
+    private destroyRef: DestroyRef,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // const savedForm = window.localStorage.getItem('saved-login-form');
-    // if (savedForm) {
-    //   const loadedForm = JSON.parse(savedForm);
-    //   this.loginForm.patchValue({ email: loadedForm.email });
-    // }
     const subscription = this.loginForm.valueChanges
       .pipe(debounceTime(500))
       .subscribe({
         next: (value) => {
           window.localStorage.setItem(
             'saved-login-form',
-            JSON.stringify({ email: value.email })
+            JSON.stringify({ username: value.username })
           );
         },
       });
@@ -62,30 +47,38 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm = new FormGroup({
-    email: new FormControl(initialEmailValue, {
-      validators: [Validators.email, Validators.required],
-      asyncValidators: [emailIsUnique],
+    username: new FormControl(initialEmailValue, {
+      validators: [Validators.required],
     }),
     password: new FormControl('', {
-      validators: [
-        Validators.required,
-        Validators.minLength(6),
-        mustContainQuestionMark,
-      ],
+      validators: [Validators.required, Validators.minLength(6)],
     }),
   });
 
   onSubmit() {
-    const enteredEmail = this.loginForm.value.email;
+    if (this.loginForm.invalid) {
+      console.log('INVALID FORM');
+      return;
+    }
+    const enteredUsername = this.loginForm.value.username;
     const enteredPassword = this.loginForm.value.password;
-    console.log(this.loginForm);
+
+    this.authService.login(enteredUsername, enteredPassword).subscribe({
+      next: (response) => {
+        this.authService.saveToken(response.token);
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+      },
+    });
   }
 
   get emailIsInvalid() {
     return (
-      this.loginForm.controls.email.touched &&
-      this.loginForm.controls.email.dirty &&
-      this.loginForm.controls.email.invalid
+      this.loginForm.controls.username.touched &&
+      this.loginForm.controls.username.dirty &&
+      this.loginForm.controls.username.invalid
     );
   }
 
