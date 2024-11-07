@@ -11,11 +11,9 @@ import { debounceTime } from 'rxjs';
 
 import { AuthService } from '../auth.service';
 
-let initialEmailValue = '';
 const savedForm = window.localStorage.getItem('saved-login-form');
 if (savedForm) {
   const loadedForm = JSON.parse(savedForm);
-  initialEmailValue = loadedForm.email;
 }
 
 @Component({
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginForm = new FormGroup({
-    username: new FormControl(initialEmailValue, {
+    username: new FormControl('', {
       validators: [Validators.required],
     }),
     password: new FormControl('', {
@@ -56,7 +54,11 @@ export class LoginComponent implements OnInit {
   });
 
   onSubmit() {
-    if (this.loginForm.invalid) {
+    if (
+      this.loginForm.invalid ||
+      !this.loginForm.value.username ||
+      !this.loginForm.value.password
+    ) {
       console.log('INVALID FORM');
       return;
     }
