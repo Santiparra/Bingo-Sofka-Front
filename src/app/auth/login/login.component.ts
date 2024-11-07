@@ -1,4 +1,5 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AbstractControl,
   FormControl,
@@ -39,7 +40,7 @@ if (savedForm) {
   imports: [ReactiveFormsModule],
 })
 export class LoginComponent implements OnInit {
-  constructor(private destroyRef: DestroyRef) {}
+  constructor(private destroyRef: DestroyRef, private router: Router) {}
 
   ngOnInit(): void {
     // const savedForm = window.localStorage.getItem('saved-login-form');
@@ -94,5 +95,9 @@ export class LoginComponent implements OnInit {
       this.loginForm.controls.password.dirty &&
       this.loginForm.controls.password.invalid
     );
+  }
+
+  goToRegister() {
+    this.router.navigate(['/auth/sign-up']);
   }
 }

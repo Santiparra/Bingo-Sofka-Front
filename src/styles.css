@@ -183,3 +183,41 @@ input.ng-invalid.ng-touched.ng-dirty {
   background-color: #fbdcd6;
   border-color: #f84e2c;
 }
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.auth-form h2 {
+  margin-bottom: 1rem;
+}
+
+.auth-link {
+  margin-top: 1rem;
+}
+
+.auth-link a {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}

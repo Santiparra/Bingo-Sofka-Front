@@ -3,7 +3,7 @@
 
   <div class="control-row">
     <div class="control no-margin">
-      <label for="email">Email</label>
+      <label for="email">Usuario</label>
       <input id="email" type="email" [formControl]="loginForm.controls.email" />
     </div>
 
@@ -22,4 +22,5 @@
     question mark)
   </p>
   }
+  <p class="auth-link">No tienes cuenta? <a (click)="goToRegister()">Regístrate aquí</a></p>
 </form>

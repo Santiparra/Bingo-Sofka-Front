@@ -1,0 +1,45 @@
+<form [formGroup]="suForm" (ngSubmit)="onSubmit()">
+  <h2>Bienvenide!</h2>
+  <p>Por favor complete sus datos para completar el registro 🚀</p>
+
+  <fieldset>
+    <div class="control">
+      <label for="username">Nombre de usuario</label>
+      <input id="username" type="text" name="username" formControlName="username" />
+    </div>
+
+    <div class="control-row" formGroupName="passwords">
+      <div class="control">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          formControlName="password"
+        />
+      </div>
+
+      <div class="control">
+        <label for="confirm-password">Confirmar Contraseña</label>
+        <input
+          id="confirm-password"
+          type="password"
+          name="confirm-password"
+          formControlName="confirmPassword"
+        />
+      </div>
+    </div>
+  </fieldset>
+
+  <p class="form-actions">
+    <button type="button" class="button button-flat" (click)="onReset()">
+      Resetear
+    </button>
+    <button type="submit" class="button">Registrarse</button>
+  </p>
+
+  @if(suForm.touched && suForm.invalid) {
+  <p class="control-error">Formulario Invalido, por favor revise los campos</p>
+  }
+  <p class="auth-link">¿Ya tienes cuenta? <a (click)="goToLogin()">Inicia sesión aquí</a></p>
+</form>
