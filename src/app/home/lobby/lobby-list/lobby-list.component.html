@@ -2,13 +2,15 @@
 
 <ng-container *ngIf="lobbies$ | async as lobbies; else noLobbies">
   <div *ngFor="let lobby of lobbies">
-    <p>Lobby ID: {{ lobby.id }}</p>
-    <div *ngFor="let player of lobby.players">
-      <p>Jugador en espera: {{ player.username }}</p>
-    </div>
-    <p>Estado: {{ lobby.state }}</p>
-    <p>Tiempo restante: {{ lobby.countdown }}</p>
-    <button (click)="joinLobby(lobby.id)">Unirse al Lobby</button>
+    <ng-container *ngIf="lobby.state == 'open'">
+      <p>Lobby ID: {{ lobby.id }}</p>
+      <div *ngFor="let player of lobby.players">
+        <p>Jugador en espera: {{ player.username }}</p>
+      </div>
+      <p>Estado: {{ lobby.state }}</p>
+      <p>Tiempo restante: {{ lobby.countdown }}</p>
+      <button (click)="joinLobby(lobby.id)">Unirse al Lobby</button>
+    </ng-container>
   </div>
 </ng-container>
 
