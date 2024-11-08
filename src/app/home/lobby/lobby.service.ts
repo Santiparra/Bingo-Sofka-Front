@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 import { AuthService } from '../../auth/auth.service';
@@ -17,7 +17,7 @@ export interface Lobby {
 })
 export class LobbyService {
   private socket: Socket;
-  private lobbiesSubject = new Subject<Lobby[]>();
+  private lobbiesSubject = new BehaviorSubject<Lobby[]>([]);
   userData: { id: string; username: string } | null = null;
 
   constructor(private authService: AuthService) {
@@ -33,6 +33,10 @@ export class LobbyService {
 
   getLobbies(): Observable<Lobby[]> {
     return this.lobbiesSubject.asObservable();
+  }
+
+  updateLobbiesList() {
+    this.socket.emit('getLobbies');
   }
 
   createLobby() {
