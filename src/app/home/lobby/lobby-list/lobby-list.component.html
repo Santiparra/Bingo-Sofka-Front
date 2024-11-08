@@ -6,6 +6,7 @@
     <div *ngFor="let player of lobby.players">
       <p>Jugador en espera: {{ player.username }}</p>
     </div>
+    <p>Estado: {{ lobby.state }}</p>
     <p>Tiempo restante: {{ lobby.countdown }}</p>
     <button (click)="joinLobby(lobby.id)">Unirse al Lobby</button>
   </div>

@@ -8,6 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 export interface Lobby {
   id: string;
   players: any;
+  state: 'open' | 'close';
   countdown: number;
   createdAt: Date;
 }

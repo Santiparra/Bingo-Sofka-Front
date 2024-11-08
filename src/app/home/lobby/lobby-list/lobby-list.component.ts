@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
 import { LobbyService, Lobby } from '../lobby.service';
 
-// TODO: Fix lobbies subscription
 @Component({
   selector: 'app-lobby-list',
   standalone: true,
@@ -16,7 +16,7 @@ import { LobbyService, Lobby } from '../lobby.service';
 export class LobbyListComponent implements OnInit {
   lobbies$!: Observable<Lobby[]>; 
 
-  constructor(private lobbyService: LobbyService) {}
+  constructor(private lobbyService: LobbyService, private router: Router) {}
 
   ngOnInit() {
     this.lobbyService.updateLobbiesList();
@@ -25,5 +25,6 @@ export class LobbyListComponent implements OnInit {
 
   joinLobby(lobbyId: string) {
     this.lobbyService.joinLobby(lobbyId);
+    this.router.navigate(['gameboard']);
   }
 }
