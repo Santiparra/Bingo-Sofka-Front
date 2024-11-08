@@ -1,19 +1,13 @@
-<div class="lobby-controls">
-  <button (click)="createLobby()">Crear Lobby Nuevo</button>
-</div>
+<h3>Lista de Lobbies</h3>
 
-<div *ngIf="lobbies.length === 0">No hay lobbies disponibles.</div>
+<ng-container *ngIf="lobbies$ | async as lobbies; else noLobbies">
+  <div *ngFor="let lobby of lobbies">
+    <p>Lobby ID: {{ lobby.id }}</p>
+    <p>Jugadores: {{ lobby.playerCount }}/4</p>
+    <button (click)="joinLobby(lobby.id)">Unirse al Lobby</button>
+  </div>
+</ng-container>
 
-<ul>
-  <li *ngFor="let lobby of lobbies">
-    Lobby ID: {{ lobby.id }} - Jugadores: {{ lobby.players.length }}
-    <button (click)="joinLobby(lobby.id)">Unirse</button>
-  </li>
-</ul>
-
-<div *ngIf="lobby">
-  <h3>Te has unido al lobby: {{ lobby.id }}</h3>
-  <p>Tiempo restante: {{ countdown }} segundos</p>
-</div>
-
-<p>{{ message }}</p>
+<ng-template #noLobbies>
+  <p>No hay lobbies disponibles.</p>
+</ng-template>

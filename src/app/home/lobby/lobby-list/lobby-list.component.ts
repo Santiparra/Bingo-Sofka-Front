@@ -1,54 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { LobbyService } from '../lobby.service';
+import { AsyncPipe } from '@angular/common';
+
+import { Observable } from 'rxjs';
+
+import { LobbyService, Lobby } from '../lobby.service';
 
 @Component({
   selector: 'app-lobby-list',
   standalone: true,
-  imports: [],
   templateUrl: './lobby-list.component.html',
-  styleUrl: './lobby-list.component.css'
+  styleUrls: ['./lobby-list.component.css'],
+  imports: [AsyncPipe],
 })
 export class LobbyListComponent implements OnInit {
-  lobbies: any[] = [];
-  lobby: any = null;
-  message = '';
-  countdown = 0;
+  lobbies$!: Observable<Lobby[]>;
 
   constructor(private lobbyService: LobbyService) {}
 
   ngOnInit() {
-    this.lobbyService.lobbiesUpdate$.subscribe((lobbies) => {
-      this.lobbies = lobbies;
-    });
-
-    this.lobbyService.lobbyCreated$.subscribe((lobby) => {
-      this.lobby = lobby;
-      this.startCountdown(lobby.countdown);
-    });
-
-    this.lobbyService.joinedLobby$.subscribe((lobby) => {
-      this.lobby = lobby;
-      this.startCountdown(lobby.countdown);
-    });
-
-    this.lobbyService.lobbyNotFound$.subscribe(() => {
-      this.message = 'Lobby no encontrado o ya en curso.';
-    });
-  }
-
-  createLobby() {
-    this.lobbyService.createLobby({ name: 'Jugador' });
+    this.lobbies$ = this.lobbyService.getLobbies();
   }
 
   joinLobby(lobbyId: string) {
-    this.lobbyService.joinLobby(lobbyId, { name: 'Jugador' });
-  }
-
-  startCountdown(seconds: number) {
-    this.countdown = seconds;
-    const interval = setInterval(() => {
-      this.countdown -= 1;
-      if (this.countdown <= 0) clearInterval(interval);
-    }, 1000);
+    this.lobbyService.joinLobby(lobbyId);
   }
 }

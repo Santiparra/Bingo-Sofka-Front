@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+
+import { LobbyService } from '../lobby/lobby.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,7 +12,15 @@ import { Router } from '@angular/router';
   styleUrl: './nav-bar.component.css',
 })
 export class NavBarComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private lobbyService: LobbyService
+  ) {}
+
+  createNewLobby() {
+    this.lobbyService.createLobby();
+  }
 
   onStartGame() {
     throw new Error('Method not implemented.');
