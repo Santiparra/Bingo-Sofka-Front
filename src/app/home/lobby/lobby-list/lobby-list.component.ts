@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { LobbyService, Lobby } from '../lobby.service';
 
+// TODO: Fix lobbies subscription
 @Component({
   selector: 'app-lobby-list',
   standalone: true,
@@ -13,7 +14,9 @@ import { LobbyService, Lobby } from '../lobby.service';
 export class LobbyListComponent implements OnInit {
   lobbies$!: Observable<Lobby[]>; 
 
-  constructor(private lobbyService: LobbyService) {}
+  constructor(private lobbyService: LobbyService) {
+    this.lobbies$ = this.lobbyService.getLobbies();
+  }
 
   ngOnInit() {
     this.lobbies$ = this.lobbyService.getLobbies();
