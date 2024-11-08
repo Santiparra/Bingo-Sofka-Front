@@ -15,7 +15,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./auth/signup/signup.component').then((m) => m.SignupComponent),
   },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'gameboard',
+    loadComponent: () =>
+      import('./gameboard/gameboard.component').then((m) => m.GameboardComponent),
+    canActivate: [AuthGuard]
+  },
   { path: '**', redirectTo: '/auth/login' },
 ];
