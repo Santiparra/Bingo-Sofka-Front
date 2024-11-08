@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-
 import { Observable } from 'rxjs';
-
+import { CommonModule } from '@angular/common'; // Importa CommonModule
 import { LobbyService, Lobby } from '../lobby.service';
 
 @Component({
@@ -10,10 +8,10 @@ import { LobbyService, Lobby } from '../lobby.service';
   standalone: true,
   templateUrl: './lobby-list.component.html',
   styleUrls: ['./lobby-list.component.css'],
-  imports: [AsyncPipe],
+  imports: [CommonModule],
 })
 export class LobbyListComponent implements OnInit {
-  lobbies$!: Observable<Lobby[]>;
+  lobbies$!: Observable<Lobby[]>; 
 
   constructor(private lobbyService: LobbyService) {}
 
