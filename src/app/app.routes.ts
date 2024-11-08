@@ -22,7 +22,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'gameboard',
+    path: 'gameboard/:lobbyId',
     loadComponent: () =>
       import('./gameboard/gameboard.component').then((m) => m.GameboardComponent),
     canActivate: [AuthGuard]

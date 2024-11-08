@@ -25,6 +25,6 @@ export class LobbyListComponent implements OnInit {
 
   joinLobby(lobbyId: string) {
     this.lobbyService.joinLobby(lobbyId);
-    this.router.navigate(['gameboard']);
+    this.router.navigate([`gameboard/${lobbyId}`]);
   }
 }
