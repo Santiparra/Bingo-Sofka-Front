@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 import { AuthService } from '../../auth/auth.service';
@@ -34,6 +34,14 @@ export class LobbyService {
 
   getLobbies(): Observable<Lobby[]> {
     return this.lobbiesSubject.asObservable();
+  }
+
+  getLobby(lobbyId: string): Observable<Lobby | undefined> {
+    return this.lobbiesSubject
+      .asObservable()
+      .pipe(
+        map((lobbies: Lobby[]) => lobbies.find((lobby) => lobby.id === lobbyId))
+      );
   }
 
   updateLobbiesList() {

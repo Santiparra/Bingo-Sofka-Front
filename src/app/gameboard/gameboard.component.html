@@ -1,1 +1,9 @@
 <p>gameboard works!</p>
+
+<p>lobby id: {{ lobbyId }} </p>
+
+<div *ngIf="lobby$ | async as lobby">
+  <p>Lobby ID: {{ lobby.id }}</p>
+  <p>Players: {{ lobby.players.length }}</p>
+  <!-- Otros datos del lobby -->
+</div>
