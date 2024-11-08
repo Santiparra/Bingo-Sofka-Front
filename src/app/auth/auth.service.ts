@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { jwtDecode } from "jwt-decode";
 
 import { SignUpInterface } from '../shared/interfaces/sign-up-data.interface';
 import { LoginResponse } from '../shared/interfaces/login-response.interface';
@@ -41,4 +42,23 @@ export class AuthService {
     localStorage.removeItem('auth_token');
   }
 
+  getUserData(): DecodedToken | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decoded = jwtDecode(token) as DecodedToken; 
+        return decoded;
+      } catch (error) {
+        console.error('Token inválido:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
+}
+
+interface DecodedToken {
+  id: string;
+  username: string;
 }
